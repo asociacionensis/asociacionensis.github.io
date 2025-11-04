@@ -3037,6 +3037,26 @@ input, select, textarea {
 					width: 100%;
 				}
 
+				.features article .image-with-source {
+					position: relative;
+				}
+
+				.features article .image-with-source h6 {
+					position: absolute;
+					bottom: 0;
+					background-color: rgba(24, 24, 24, 110);
+					width: 100%;
+					margin: 0;
+					padding: 1em;
+					text-align: end;
+					padding-top: 1%;
+				}
+
+				.features article.full-width-article {
+					width: calc(100% - 1.5em);
+					margin: 1em;
+				}
+
 		@media screen and (max-width: 980px) {
 
 			.features article {
