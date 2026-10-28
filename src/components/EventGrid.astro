@@ -1,0 +1,31 @@
+---
+/**
+ * The two-up event grid shared by the home page and both events listings.
+ * Alternating right margin on even indices forms the 1em gutter, so a trailing
+ * odd card sits flush left rather than indented.
+ */
+import EventCard from './EventCard.astro';
+import type { Event } from '../utils/events';
+
+interface Props {
+  events: Event[];
+}
+
+const { events } = Astro.props;
+---
+
+
+<div class="mt-[1.75em] flex flex-wrap">
+  {
+    events.map((event, i) => (
+      <div
+        class:list={[
+          'w-full max-w-[48em] sm:w-[calc(50%-1em)]',
+          i % 2 === 0 && 'sm:mr-[1em]',
+        ]}
+      >
+        <EventCard {...event} />
+      </div>
+    ))
+  }
+</div>

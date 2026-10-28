@@ -1,0 +1,48 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Section from '../components/Section.astro';
+import Icon from '../components/Icon.astro';
+import ContactList from '../components/ContactList.astro';
+import { formatDate } from '../utils/date';
+import { withBase } from '../utils/base';
+import { getRelativeLocaleUrl } from 'astro:i18n';
+
+// A Markdown page hands its frontmatter to the layout under `frontmatter`.
+const { title, date, location, image, imageAlt, registrationUrl } =
+  Astro.props.frontmatter;
+
+const { locale, t } = Astro.locals.i18n;
+
+const eventDate = new Date(date);
+const backHref = getRelativeLocaleUrl(locale, '/eventos');
+---
+
+<BaseLayout title={`${title} — Asociación Ensis`} bannerAs="p">
+  <Section tone="surface" variant="base">
+    <a href={backHref}
+      class="mb-[1.5em] inline-block font-heading text-[0.8em] uppercase tracking-[0.1em]">
+      ← {t('workshops.heading')}
+    </a>
+
+    <h1 class="mb-[0.8em] border-b-2 border-hairline pb-[1em] text-[1.5em] md:text-[1.75em]">{title}</h1>
+
+    {image && <img src={withBase(image)} alt={imageAlt} class="mb-[1.5em] w-full rounded-[5px] object-cover" />}
+
+    <ContactList items={[
+      { icon: 'lucide:calendar', text: formatDate(locale, eventDate) },
+      { icon: 'lucide:map-pin', text: location },
+    ]} class="mb-[1.5em]" />
+
+    <div class="prose max-w-none"><slot /></div>
+
+    {registrationUrl && (
+      <a href={registrationUrl} target="_blank" rel="noopener noreferrer"
+        class="mt-[2em] inline-flex items-center gap-[0.5em] font-heading text-[0.8em] font-bold uppercase tracking-[0.1em]">
+        <span class="grid h-[2em] w-[2em] place-items-center rounded-full border-2 border-hairline transition-colors duration-200 hover:bg-hairline-strong-soft">
+          <Icon name="lucide:external-link" class="size-[0.9em]" />
+        </span>
+        {t('cta.register')}
+      </a>
+    )}
+  </Section>
+</BaseLayout>

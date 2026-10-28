@@ -1,0 +1,49 @@
+---
+/**
+ * The COEDPI registration sheet is a 106-field cross-origin form, so it cannot be
+ * measured or styled. Rather than ship a nested scroll box, this presents the
+ * CTA in the site's theme and hands off to the official form.
+ */
+import Icon from './Icon.astro';
+
+interface Props {
+  groupName: string;
+  url: string;
+}
+
+const { groupName, url } = Astro.props;
+
+const { t } = Astro.locals.i18n;
+---
+
+
+<div class="rounded-[5px] border-2 border-hairline bg-surface-raised p-[1.75em] sm:p-[2.5em]">
+  <div class="flex items-start gap-[1em]">
+    <span
+      aria-hidden="true"
+      class="grid h-[2.5em] w-[2.5em] shrink-0 place-items-center rounded-full border-2 border-hairline"
+    >
+      <Icon name="lucide:handshake" class="size-[1.1em]" />
+    </span>
+
+    <div class="min-w-0">
+      <h3 class="mb-[0.6em] border-0 pb-0 text-[0.9em] sm:text-[0.8em]">
+        {t('join.heading', { group: groupName })}
+      </h3>
+      <p class="mb-[1.5em] max-w-[42em] text-[0.95em]">
+        {t('join.note')}
+      </p>
+
+      <a
+        href={url}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center gap-[0.6em] rounded-[5px] bg-accent px-[1.5em] py-[0.85em] font-heading text-[0.8em] font-bold uppercase tracking-[0.1em] text-ink-on-accent no-underline transition-opacity duration-200 hover:opacity-90"
+      >
+        {t('cta.registerSelf')}
+        <Icon name="lucide:external-link" class="size-[0.9em]" />
+        <span class="sr-only">{t('a11y.newTabNotice')}</span>
+      </a>
+    </div>
+  </div>
+</div>

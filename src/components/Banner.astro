@@ -1,0 +1,30 @@
+---
+/** The header script watches #banner to decide when to go transparent. */
+import { SITE } from '../config';
+const { t } = Astro.locals.i18n;
+
+/** Pages supplying their own <h1> pass as="p", to avoid a second one. */
+const { as = 'h1' } = Astro.props as { as?: 'h1' | 'p' };
+const Heading = as;
+---
+
+
+<section
+  id="banner"
+  aria-labelledby="banner-title"
+  class="hero-surface px-[2em] pt-[5em] sm:px-[3em] sm:pt-[12em] md:px-0 md:pt-[7em] lg:pt-[10em]"
+>
+  <div class="mx-auto w-full px-[2em] md:max-w-[55em] md:px-0">
+    <Heading
+      id="banner-title"
+      class="mb-[0.8em] border-b-2 border-hairline pb-[1em] font-heading text-[1.5em] font-bold uppercase leading-[1.2] tracking-[0.1em] lg:text-[2.25em]"
+    >
+      {SITE.name}
+    </Heading>
+    <p
+      class="m-0 font-heading text-[0.8em] font-extrabold uppercase tracking-[0.1em] leading-[2] lg:text-[1em]"
+    >
+      {t('site.tagline')}
+    </p>
+  </div>
+</section>

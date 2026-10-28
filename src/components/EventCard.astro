@@ -1,0 +1,75 @@
+---
+/** Past events render recessed with a "Finalizado" badge and no CTA. */
+import Icon from './Icon.astro';
+import ContactList, { type ContactItem } from './ContactList.astro';
+import { isPast, formatDate } from '../utils/date';
+import { withBase } from '../utils/base';
+import { getRelativeLocaleUrl } from 'astro:i18n';
+import type { Event } from '../utils/events';
+
+interface Props extends Event {}
+
+const { title, date, location, image, imageAlt, summary, registrationUrl, slug } =
+  Astro.props;
+
+const { locale, t } = Astro.locals.i18n;
+
+const past = isPast(date);
+const hasCta = !past && Boolean(registrationUrl);
+const href = getRelativeLocaleUrl(locale, `/eventos/${slug}`);
+
+const items: ContactItem[] = [
+  { icon: 'lucide:calendar', text: formatDate(locale, date) },
+  { icon: 'lucide:map-pin', text: location },
+];
+---
+
+
+<article
+  class:list={[
+    'relative flex flex-col overflow-hidden rounded-[5px]',
+    'bg-surface-raised',
+    past && 'opacity-70',
+  ]}
+>
+  <div class="shrink-0">
+    <img src={withBase(image)} alt={imageAlt} class="block h-full w-full object-cover aspect-video" loading="lazy" />
+  </div>
+
+  <div class="flex flex-1 flex-col p-[1.5em] sm:p-[1.75em]">
+    <div class="flex items-start justify-between gap-3">
+      <h3 class="m-0 border-b-2 border-hairline pb-[0.8em] text-[0.9em] sm:text-[0.8em]">
+        <a href={href}>{title}</a>
+      </h3>
+
+      {
+        past && (
+          <span class="shrink-0 rounded-full border border-hairline px-[0.75em] py-[0.25em] font-heading text-[0.6em] uppercase tracking-[0.1em] text-ink-muted">
+            {t('workshops.finished')}
+          </span>
+        )
+      }
+    </div>
+
+    <p class="mt-[1em] mb-[1.5em] text-[0.95em]">{summary}</p>
+
+    <ContactList items={items} class="mb-[1.5em] text-[0.9em]" />
+
+    {
+      hasCta && (
+        <a
+          href={registrationUrl!}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="mt-auto inline-flex items-center gap-[0.5em] self-start border-0 font-heading text-[0.8em] font-bold uppercase tracking-[0.1em]"
+        >
+          <span class="grid h-[2em] w-[2em] place-items-center rounded-full border-2 border-hairline transition-colors duration-200 hover:bg-hairline-strong-soft">
+            <Icon name="lucide:external-link" class="size-[0.9em]" />
+          </span>
+          {t('cta.register')}
+          <span class="sr-only">{t('a11y.newTabNotice')}</span>
+        </a>
+      )
+    }
+  </div>
+</article>

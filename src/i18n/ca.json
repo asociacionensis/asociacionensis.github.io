@@ -1,0 +1,106 @@
+{
+  "site": {
+    "tagline": "Recreació Històrica i Arts Marcials Històriques Europees",
+    "description": "L’Asociació Ensis t’invita a viure la història a través de la recreació històrica i l’estudi de les arts marcials històriques europees."
+  },
+  "a11y": {
+    "skipToContent": "Saltar al contingut principal",
+    "primaryNav": "Principal",
+    "menuDialog": "Menú principal",
+    "newTabNotice": "(s’obre en una pestanya nova)",
+    "groupSocialNotice": "de {{group}} (s’obre en una pestanya nova)"
+  },
+  "language": {
+    "label": "Idioma",
+    "es": "Castellano",
+    "ca": "Català",
+    "switchTo": "Canviar a {{language}}"
+  },
+  "theme": {
+    "toggle": "Canviar el tema",
+    "toLight": "Canviar al tema clar",
+    "toDark": "Canviar al tema fosc"
+  },
+  "nav": {
+    "home": "Inici",
+    "recreacion": "Recreació Històrica",
+    "artesMarciales": "Arts Marcials Històriques Europees",
+    "events": "Esdeveniments",
+    "contact": "Contacte"
+  },
+  "groups": {
+    "recreacion": {
+      "tagline": "Viu la història tant en els llibres com a l’aire lliure.",
+      "imageAlt": "Persones participant en una recreació històrica de Las Hijas de Walpurgis"
+    },
+    "artes": {
+      "tagline": "Estudiem l’art de l’esgrima des de les seves fonts originals. I ho posem en pràctica.",
+      "imageAlt": "Demostració d’Arts Marcials Històriques Europees"
+    }
+  },
+  "menu": {
+    "open": "Menú",
+    "title": "Menú",
+    "close": "Tancar"
+  },
+  "cta": {
+    "learnMore": "Més informació",
+    "register": "Inscriure’s",
+    "registerSelf": "Inscri’m",
+    "viewAllEvents": "Veure tots els tallers i les dates →"
+  },
+  "workshops": {
+    "pageTitle": "Tallers, cursos i xerrades — Asociación Ensis",
+    "heading": "Tallers, cursos i xerrades",
+    "tagline": "Et ve de posar les mans?",
+    "none": "Ara mateix no hi ha cap taller programat.",
+    "followBefore": "Segueix-nos a",
+    "followAfter": "perquè sàpigues quan els anunciem.",
+    "upcoming": "Properes activitats",
+    "past": "Activitats anteriors",
+    "pastNote": "Aquestes activitats ja s’han realitzat. Si vols que es repeteixin o si en vols proposar una, escriu-nos.",
+    "finished": "Finalitzat"
+  },
+  "contact": {
+    "heading": "Contacte",
+    "lede": "Pots posar-te en contacte amb nosaltres per WhatsApp, correu electrònic, Instagram o amb el formulari d’aquesta pàgina.",
+    "donateHeading": "Donar",
+    "donateNote": "Donacions a través de Bizum:",
+    "donateCode": "Bizum ONG {{code}}",
+    "formTitle": "Formulari de contacte de l’Asociació Ensis",
+    "pageTitle": "Contacte — Asociación Ensis",
+    "channelsHeading": "Com posar-te en contacte",
+    "formHeading": "Formulari de contacte"
+  },
+  "footer": {
+    "copyright": "© {{year}} Asociación Ensis. Tots els drets reservats",
+    "studioCredit": "</> amb 💖 fet per",
+    "designCredit": "Disseny original:",
+    "legalNav": "Documents legals",
+    "privacy": "Privadesa",
+    "terms": "Condicions d’ús",
+    "statutes": "Estatuts",
+    "quickNav": "Navegació"
+  },
+  "join": {
+    "heading": "Uneix-te a {{group}}",
+    "note": "La inscripció es completa al formulari oficial de la sala, gestionat per COEDPI. S’obrirà en una pestanya nova."
+  },
+  "group": {
+    "follow": "Segueix {{group}}"
+  },
+  "project": {
+    "whatWeDo": "Què fem",
+    "howToJoin": "Com participar",
+    "draft": "Aquesta secció està en preparació."
+  },
+  "notFound": {
+    "pageTitle": "Pàgina no trobada — Asociación Ensis",
+    "heading": "Pàgina no trobada",
+    "lede": "La pàgina que busques no existeix o ha canviat d’emplaçament.",
+    "suggestionsLabel": "Prova amb:"
+  },
+  "legal": {
+    "lastUpdated": "Darrera actualització: {{date}}"
+  }
+}

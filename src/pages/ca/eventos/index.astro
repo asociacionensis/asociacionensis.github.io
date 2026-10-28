@@ -1,0 +1,48 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Section from '../../../components/Section.astro';
+import EventGrid from '../../../components/EventGrid.astro';
+import { splitByDate, toEvents, type EventFrontmatter } from '../../../utils/events';
+
+const { t } = Astro.locals.i18n;
+
+const modules = import.meta.glob<EventFrontmatter>('./*.md', {
+  eager: true,
+  import: 'frontmatter',
+});
+
+const { upcoming, past } = splitByDate(toEvents(modules));
+---
+
+
+<BaseLayout title={t('workshops.pageTitle')} bannerAs="p">
+  <Section tone="surface" variant="base">
+    <h1 class="mb-[0.8em] border-b-2 border-hairline pb-[1em] text-[1.5em] md:text-[1.75em]">
+      {t('workshops.heading')}
+    </h1>
+    <p>{t('workshops.tagline')}</p>
+
+    {upcoming.length === 0 && past.length === 0 && (
+      <p class="text-ink-muted">{t('workshops.none')}</p>
+    )}
+
+    {upcoming.length > 0 && (
+      <>
+        <h2 class="mt-[2.5em] border-b-2 border-hairline pb-[1em] text-[1em] md:text-[1.2em]">
+          {t('workshops.upcoming')}
+        </h2>
+        <EventGrid events={upcoming} />
+      </>
+    )}
+  </Section>
+
+  {past.length > 0 && (
+    <Section tone="surface" variant="alt">
+      <h2 class="mb-[0.8em] border-b-2 border-hairline pb-[1em] text-[1em] md:text-[1.2em]">
+        {t('workshops.past')}
+      </h2>
+      <p class="text-ink-muted">{t('workshops.pastNote')}</p>
+      <EventGrid events={past} />
+    </Section>
+  )}
+</BaseLayout>

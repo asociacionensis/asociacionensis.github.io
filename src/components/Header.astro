@@ -1,0 +1,72 @@
+---
+import { SITE } from '../config';
+import ThemeToggle from './ThemeToggle.astro';
+
+import { getRelativeLocaleUrl } from 'astro:i18n';
+
+const { locale, t } = Astro.locals.i18n;
+
+interface Props {
+  banner?: boolean;
+}
+
+const { banner = true } = Astro.props;
+---
+
+
+<header
+  id="site-header"
+  class:list={[
+    'fixed inset-x-0 top-0 z-[10000] h-[2.75em] leading-[2.75em] transition-[background-color,backdrop-filter] duration-200 md:h-[3.5em] md:leading-[3.5em]',
+    banner ? 'bg-transparent' : 'bg-surface-raised/95',
+  ]}
+>
+  <div class="mx-auto flex h-full max-w-[100em] items-center justify-between px-[1em] md:px-[1.25em]">
+    <p
+      id="site-title"
+      class="m-0 font-heading text-[0.8em] font-bold uppercase tracking-[0.1em] transition-opacity duration-200"
+    >
+      <a href={getRelativeLocaleUrl(locale, '/')} class="border-0">{SITE.name}</a>
+    </p>
+
+    <nav aria-label={t('a11y.primaryNav')} class="flex items-center gap-[0.5em] md:gap-[0.75em]">
+      <ThemeToggle />
+      <button
+        type="button"
+        id="menu-trigger"
+        aria-expanded="false"
+        aria-controls="site-menu"
+        class="inline-flex cursor-pointer items-center gap-[0.6em] rounded-[5px] px-[1em] py-[0.35em] font-heading text-[0.8em] font-bold uppercase tracking-[0.1em] transition-colors duration-200 active:bg-hairline-soft md:px-[1.35em]"
+      >
+        <span aria-hidden="true" class="text-[1.1em] leading-none">☰</span>
+        {/* sr-only keeps the collapsed label available to screen readers. */}
+        <span class="sr-only min-[481px]:not-sr-only">{t('menu.open')}</span>
+      </button>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const header = document.getElementById('site-header');
+  const banner = document.getElementById('banner');
+
+  if (header && banner) {
+    const title = document.getElementById('site-title');
+    let alt = header.classList.contains('bg-transparent');
+
+    const setAlt = (next: boolean) => {
+      if (next === alt) return;
+      alt = next;
+      header.classList.toggle('bg-transparent', alt);
+      header.classList.toggle('bg-surface-raised/95', !alt);
+      title?.classList.toggle('invisible', alt);
+      title?.classList.toggle('opacity-0', alt);
+    };
+
+    const update = () => setAlt(banner.getBoundingClientRect().bottom > header.offsetHeight);
+
+    update();
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update, { passive: true });
+  }
+</script>

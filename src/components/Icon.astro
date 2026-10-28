@@ -1,0 +1,18 @@
+---
+/**
+ * Icons are inlined at build time — there is no Iconify runtime in the browser.
+ * Always decorative, so hidden from assistive tech; adjacent text carries the
+ * meaning.
+ */
+import { Icon } from 'astro-icon/components';
+
+interface Props {
+  name: string;
+  class?: string;
+}
+
+const { name, class: className = '' } = Astro.props;
+---
+
+
+<Icon name={name} aria-hidden="true" focusable="false" class={className} />

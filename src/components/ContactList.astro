@@ -1,0 +1,68 @@
+---
+import Icon from './Icon.astro';
+
+export interface ContactItem {
+  icon: string;
+  /** Plain text. Use when there is no link. */
+  text?: string;
+  /** Link label; pair with `href`. */
+  label?: string;
+  href?: string;
+  external?: boolean;
+  /** Renders on its own line under the label (used for addresses). */
+  detail?: string;
+}
+
+interface Props {
+  items: ContactItem[];
+  class?: string;
+}
+
+const { items, class: className = '' } = Astro.props;
+
+const { t } = Astro.locals.i18n;
+---
+
+
+<ul class:list={['m-0 list-none p-0', className]}>
+  {
+    items.map((item, i) => (
+      <li
+        class:list={[
+          'relative pl-[3.25em]',
+          i === 0 ? 'mt-0' : 'mt-[2.5em]',
+        ]}
+      >
+        <span
+          aria-hidden="true"
+          class="absolute left-0 top-0 grid h-[2.5em] w-[2.5em] place-items-center rounded-full border-2 border-hairline"
+        >
+          <Icon name={item.icon} class="size-[1.1em]" />
+        </span>
+
+        <div class="leading-[1.4]">
+          {item.href ? (
+            <a
+              href={item.href}
+              target={item.external ? '_blank' : undefined}
+              rel={item.external ? 'noopener noreferrer' : undefined}
+              class="border-b border-dotted border-ink-muted hover:border-transparent"
+            >
+              {item.label}
+              {item.external && (
+                <>
+                  <span class="sr-only"> {t('a11y.newTabNotice')}</span>
+                  <Icon name="lucide:external-link" class="ms-1 inline-block size-[0.8em] align-baseline" />
+                </>
+              )}
+            </a>
+          ) : (
+            <span>{item.text}</span>
+          )}
+
+          {item.detail && <span class="mt-1 block">{item.detail}</span>}
+        </div>
+      </li>
+    ))
+  }
+</ul>

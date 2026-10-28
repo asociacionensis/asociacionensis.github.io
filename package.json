@@ -1,0 +1,31 @@
+{
+  "name": "asociacion-ensis",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Asociación Ensis — Recreación Histórica y Artes Marciales Históricas Europeas",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "check:i18n": "node scripts/check-i18n-keys.mjs ca.json",
+    "test": "node --test tests/date.test.ts",
+    "verify": "npm run check:i18n && npm run check && npm test && npm run build"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.7.4",
+    "@tailwindcss/typography": "^0.5.20",
+    "astro": "^7.3.8"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.4",
+    "@iconify-json/lucide": "^1.2.143",
+    "@iconify-json/tabler": "^1.2.42",
+    "@tailwindcss/vite": "^4.3.3",
+    "astro-icon": "^1.2.0",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^5.9.3"
+  }
+}

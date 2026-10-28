@@ -1,0 +1,111 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from './BaseLayout.astro';
+import Icon from '../components/Icon.astro';
+import Section from '../components/Section.astro';
+import JoinCard from '../components/JoinCard.astro';
+
+interface Props {
+  /** Non-copy group data from src/config.ts. */
+  group: {
+    slug: string;
+    groupName: string;
+    image: ImageMetadata;
+    social: Record<string, string>;
+    joinUrl: string | null;
+  };
+  /** Dictionary keys for this discipline's title, tagline and image alt text. */
+  keys: { title: string; tagline: string; imageAlt: string };
+  /** Set while the page body copy is still a draft. */
+  noindex?: boolean;
+}
+
+const { group, keys, noindex = false } = Astro.props;
+
+const { t } = Astro.locals.i18n;
+
+const title = t(keys.title);
+const tagline = t(keys.tagline);
+const imageAlt = t(keys.imageAlt);
+
+const socialLabels: Record<string, string> = {
+  instagram: 'Instagram',
+  facebook: 'Facebook',
+};
+const socialIcons: Record<string, string> = {
+  instagram: 'tabler:brand-instagram',
+  facebook: 'tabler:brand-facebook',
+};
+const socials = Object.entries(group.social);
+---
+
+
+<BaseLayout
+  title={`${title} — Asociación Ensis`}
+  description={tagline}
+  bannerAs="p"
+  noindex={noindex}
+>
+  <Section tone="spotlight" variant="base">
+    <div class="flex flex-col items-center text-center sm:flex-row sm:items-center sm:text-left">
+      <div class="mb-[1.5em] w-[12em] shrink-0 overflow-hidden rounded-full sm:mr-[2em] sm:mb-0 sm:w-[16em] lg:mr-[3em] lg:w-[20em]">
+        <Image
+          src={group.image}
+          alt={imageAlt}
+          layout="constrained"
+          width={group.image.width}
+          height={group.image.height}
+          priority
+          class="block h-full w-full rounded-full"
+        />
+      </div>
+      <div class="w-full">
+        <p class="mb-[0.6em] font-heading text-[0.7em] uppercase tracking-[0.1em] opacity-80">
+          {title}
+        </p>
+        <h1 class="mb-[0.5em] border-b-2 border-hairline pb-[0.8em] text-[1.5em] sm:text-[1.4em] md:text-[1.75em]">
+          {group.groupName}
+        </h1>
+        <p class="m-0">{tagline}</p>
+      </div>
+    </div>
+  </Section>
+
+  <slot />
+
+  {
+    socials.length > 0 && (
+      <Section tone="surface" variant="alt">
+        <h2 class="mb-[0.8em] border-b-2 border-hairline pb-[1em] text-[1em] md:text-[1.2em]">
+          {t('group.follow', { group: group.groupName })}
+        </h2>
+        <ul class="m-0 flex list-none flex-wrap gap-[1em] p-0">
+          {socials.map(([key, href]) => (
+            <li>
+              <a
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex items-center gap-[0.6em] rounded-[5px] border-2 border-hairline px-[1.25em] py-[0.75em] font-heading text-[0.75em] font-bold uppercase tracking-[0.1em] no-underline transition-colors duration-200 hover:bg-hairline-strong-soft"
+              >
+                <Icon name={socialIcons[key] ?? 'lucide:globe'} class="size-4" />
+                {socialLabels[key] ?? key}
+                <span class="sr-only">
+                  {t('a11y.groupSocialNotice', { group: group.groupName })}
+                </span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </Section>
+    )
+  }
+
+  {
+    group.joinUrl && (
+      <Section tone="spotlight-alt" variant="base">
+        <JoinCard groupName={group.groupName} url={group.joinUrl} />
+      </Section>
+    )
+  }
+</BaseLayout>

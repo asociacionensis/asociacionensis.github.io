@@ -1,0 +1,94 @@
+---
+import { Image } from 'astro:assets';
+import Section from './Section.astro';
+import Icon from './Icon.astro';
+
+interface Props {
+  id?: string;
+  titleId: string;
+  title: string;
+  tagline: string;
+  image: ImageMetadata;
+  imageAlt: string;
+  href?: string;
+  linkLabel?: string;
+  reverse?: boolean;
+  /**
+   * Above-the-fold image: Astro emits loading="eager" + fetchpriority="high".
+   * At most one per page — the first Spotlight on the home page is the LCP.
+   */
+  priority?: boolean;
+}
+
+const { t } = Astro.locals.i18n;
+
+const {
+  id,
+  titleId,
+  title,
+  tagline,
+  image,
+  imageAlt,
+  href,
+  linkLabel = t('cta.learnMore'),
+  reverse = false,
+  priority = false,
+} = Astro.props;
+---
+
+
+<Section tone="spotlight" variant={reverse ? 'alt' : 'base'} id={id} labelledBy={titleId}>
+  <div
+    class:list={[
+      'flex flex-col items-start',
+      'sm:flex-row sm:items-start',
+      reverse && 'sm:flex-row-reverse',
+    ]}
+  >
+    <div
+      class:list={[
+        'overflow-hidden rounded-full shrink-0',
+        'w-[12em] max-w-[85%] mb-[1em]',
+        'sm:w-[19em] sm:max-w-none sm:mb-[2em]',
+        reverse
+          ? 'sm:mr-0 sm:ml-[1.75em] md:ml-[2em] lg:ml-[3em]'
+          : 'sm:mr-[1.75em] md:mr-[2em] lg:mr-[3em]',
+        'md:w-[32em] lg:w-[22em]',
+      ]}
+    >
+      <Image
+        src={image}
+        alt={imageAlt}
+        layout="constrained"
+        width={image.width}
+        height={image.height}
+        priority={priority}
+        class="block h-full w-full rounded-full"
+      />
+    </div>
+
+    <div class:list={['w-full', reverse && 'sm:text-right']}>
+      <h2
+        id={titleId}
+        class="mb-[0.8em] border-b-2 border-hairline pb-[1em] text-[1.2em] sm:text-[1em] md:text-[1.2em]"
+      >
+        {title}
+      </h2>
+      <p>{tagline}</p>
+
+      {
+        href && (
+          <a
+            href={href}
+            class="group/link inline-flex items-center gap-[0.6em] border-0 font-heading text-[0.8em] font-bold uppercase tracking-[0.1em]"
+          >
+            <span class="grid h-8 w-8 place-items-center rounded-full border-2 border-hairline transition-colors duration-200 group-hover/link:bg-hairline-strong-soft">
+              <Icon name="lucide:arrow-right" class="size-4" />
+            </span>
+            {linkLabel}
+          </a>
+        )
+      }
+    </div>
+  </div>
+</Section>

@@ -1,0 +1,33 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Section from '../components/Section.astro';
+import { getNav } from '../config';
+
+const { locale, t } = Astro.locals.i18n;
+const nav = getNav(t, locale);
+---
+
+
+<BaseLayout title={t('notFound.pageTitle')} banner={false}>
+  <Section tone="surface" variant="base">
+    <div class="pt-[7em]">
+      <h1 class="mb-[0.8em] border-b-2 border-hairline pb-[1em] text-[1.5em] md:text-[1.75em]">
+        {t('notFound.heading')}
+      </h1>
+      <p>{t('notFound.lede')}</p>
+
+      <h2 class="mt-[2.5em] mb-[0.8em] text-[0.9em]">{t('notFound.suggestionsLabel')}</h2>
+      <ul class="m-0 list-none p-0">
+        {
+          nav.map((item) => (
+            <li class="mb-[0.5em]">
+              <a href={item.href} class="font-heading text-[0.9em] uppercase tracking-[0.1em]">
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </Section>
+</BaseLayout>

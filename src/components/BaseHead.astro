@@ -1,0 +1,96 @@
+---
+import { getAbsoluteLocaleUrl } from 'astro:i18n';
+import { site } from 'astro:config/client';
+import { SITE } from '../config';
+import { DEFAULT_LOCALE, SUPPORTED } from '../i18n';
+import { withBase } from '../utils/base';
+
+interface Props {
+  title: string;
+  description: string;
+  /** Absolute or root-relative path to the social share image. */
+  image?: string;
+  /**
+   * Keeps the page out of search results while its copy is still a draft.
+   * Social cards are still rendered, so links stay previewable when shared.
+   */
+  noindex?: boolean;
+}
+
+const { title, description, image = '/images/logo.webp', noindex = false } = Astro.props;
+
+const { locale } = Astro.locals.i18n;
+
+const siteBase = Astro.site ?? site;
+const absolute = (path: string) => new URL(path, siteBase).href;
+
+const canonical = absolute(Astro.url.pathname);
+const ogImage = absolute(withBase(image));
+
+// The path without the Astro base: getAbsoluteLocaleUrl puts the base back,
+// so leaving it in would emit it twice (/_dev/ca/_dev/eventos/).
+const basePath = import.meta.env.BASE_URL;
+const pathname = Astro.url.pathname.startsWith(basePath)
+  ? Astro.url.pathname.slice(basePath.length - 1)
+  : Astro.url.pathname;
+
+// Strip the locale prefix so getAbsoluteLocaleUrl can re-add the correct one
+// for each locale. Default locale has no prefix; others are /{locale}/...
+const cleanPath =
+  locale === DEFAULT_LOCALE ? pathname : pathname.replace(`/${locale}`, '') || '/';
+
+const alternates = SUPPORTED.map((code) => ({
+  code,
+  href: getAbsoluteLocaleUrl(code, cleanPath),
+}));
+const xDefault = getAbsoluteLocaleUrl(DEFAULT_LOCALE, cleanPath);
+
+const ogLocale = locale === 'ca' ? 'ca_ES' : 'es_ES';
+const ogLocaleAlternate = locale === 'ca' ? ['es_ES'] : ['ca_ES'];
+---
+
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="description" content={description} />
+<meta name="robots" content={noindex ? 'noindex, follow' : 'index, follow'} />
+<link rel="canonical" href={canonical} />
+{
+  alternates.map((alt) => (
+    <link rel="alternate" hreflang={alt.code} href={alt.href} />
+  ))
+}
+<link rel="alternate" hreflang="x-default" href={xDefault} />
+
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content={SITE.name} />
+<meta property="og:locale" content={ogLocale} />
+{
+  ogLocaleAlternate.map((l) => (
+    <meta property="og:locale:alternate" content={l} />
+  ))
+}
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta property="og:image" content={ogImage} />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImage} />
+
+<link rel="icon" type="image/x-icon" href={withBase('/images/favicon.ico')} />
+
+<script is:inline>
+  (() => {
+    try {
+      const stored = localStorage.getItem('ensis-theme');
+      if (stored === 'light') document.documentElement.classList.add('light');
+    } catch {
+      /* storage blocked — dark default is fine */
+    }
+  })();
+</script>
+
+<title>{title}</title>

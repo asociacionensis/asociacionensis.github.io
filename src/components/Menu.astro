@@ -1,0 +1,162 @@
+---
+/**
+ * data-state is mirrored onto the panel as well as the container: a
+ * group-data- variant silently fails when applied to the group itself.
+ *
+ * 350ms lock matches the original jQuery behaviour, so a double-tap cannot
+ * leave the menu stuck half-open.
+ */
+import { getNav } from '../config';
+import Icon from './Icon.astro';
+import LanguageSwitcher from './LanguageSwitcher.astro';
+
+const { locale, t } = Astro.locals.i18n;
+const nav = getNav(t, locale);
+---
+
+
+<div
+  id="site-menu"
+  role="dialog"
+  aria-modal="true"
+  aria-label={t('a11y.menuDialog')}
+  data-state="closed"
+  class="pointer-events-none fixed inset-0 z-[20000] flex items-center justify-center bg-[var(--scrim)] p-[1.5em] opacity-0 transition-opacity duration-[0.35s] data-[state=open]:pointer-events-auto data-[state=open]:opacity-100"
+>
+  <div
+    id="site-menu-panel"
+    data-state="closed"
+    class="relative block w-full max-w-[19.5em] -translate-y-[0.5em] rounded-[5px] bg-spotlight p-[2.5em_1.5em] opacity-0 transition-[opacity,transform] duration-[0.35s] data-[state=open]:translate-y-0 data-[state=open]:opacity-100"
+  >
+    {/* Only the start side is padded: padding both sides wrapped the longest labels. */}
+    <h2 class="-mx-[0.75em] mb-0 border-b-2 border-hairline px-[0.75em] pb-[1em] text-[0.9em]">
+      {t('menu.title')}
+    </h2>
+
+    <button
+      type="button"
+      data-menu-close
+      class="absolute right-0 top-0 grid h-16 w-16 cursor-pointer place-items-center rounded-[5px] border-0 bg-transparent text-ink transition-colors hover:bg-hairline-strong-soft focus-visible:outline-offset-[-3px]"
+    >
+      <Icon name="lucide:x" class="size-6" />
+      <span class="sr-only">{t('menu.close')}</span>
+    </button>
+
+    <ul class="m-0 list-none p-0">
+      {
+        nav.map((item) => (
+          <li>
+            <a
+              href={item.href}
+              data-menu-link
+              class="block rounded-[5px] border-0 ps-[0.75em] py-[0.75em] font-heading text-[0.8em] font-extrabold uppercase tracking-[0.1em] leading-[1.85] transition-colors duration-200 hover:bg-hairline-strong-soft"
+            >
+              {item.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+
+    <LanguageSwitcher />
+  </div>
+</div>
+
+<script>
+  const menu = document.getElementById('site-menu');
+  const trigger = document.getElementById('menu-trigger');
+  const panel = document.getElementById('site-menu-panel');
+
+  if (menu && trigger && panel) {
+    const LOCK_MS = 350; // matches the original jQuery lock
+    let locked = false;
+    let open = false;
+    let restoreFocusTo: HTMLElement | null = null;
+
+    const focusables = () =>
+      Array.from(
+        panel.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])',
+        ),
+      ).filter((el) => el.offsetParent !== null);
+
+    const lock = () => {
+      if (locked) return false;
+      locked = true;
+      window.setTimeout(() => (locked = false), LOCK_MS);
+      return true;
+    };
+
+    const setState = (next: 'open' | 'closed') => {
+      menu.dataset.state = next;
+      panel.dataset.state = next;
+    };
+
+    const openMenu = () => {
+      open = true;
+      restoreFocusTo = document.activeElement as HTMLElement;
+      setState('open');
+      trigger.setAttribute('aria-expanded', 'true');
+      document.body.classList.add('overflow-hidden');
+      window.setTimeout(() => focusables()[0]?.focus(), 50);
+    };
+
+    const closeMenu = () => {
+      open = false;
+      setState('closed');
+      trigger.setAttribute('aria-expanded', 'false');
+      document.body.classList.remove('overflow-hidden');
+      restoreFocusTo?.focus();
+      restoreFocusTo = null;
+    };
+
+    const toggle = () => {
+      if (!lock()) return;
+      open ? closeMenu() : openMenu();
+    };
+
+    trigger.addEventListener('click', toggle);
+
+    menu.addEventListener('click', (event) => {
+      if (event.target === menu) {
+        if (lock()) closeMenu();
+      }
+    });
+
+    panel.querySelector('[data-menu-close]')?.addEventListener('click', () => {
+      if (lock()) closeMenu();
+    });
+
+    panel.querySelectorAll<HTMLAnchorElement>('[data-menu-link]').forEach((link) => {
+      link.addEventListener('click', () => {
+        if (link.getAttribute('href')?.startsWith('#')) return;
+        if (lock()) closeMenu();
+      });
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (!open) return;
+
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        closeMenu();
+        return;
+      }
+
+      if (event.key !== 'Tab') return;
+
+      const items = focusables();
+      if (items.length === 0) return;
+      const first = items[0];
+      const last = items[items.length - 1];
+
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    });
+  }
+</script>

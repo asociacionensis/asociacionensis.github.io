@@ -1,0 +1,41 @@
+---
+import ProjectLayout from '../../layouts/ProjectLayout.astro';
+import Section from '../Section.astro';
+
+interface Props {
+  group: Parameters<typeof ProjectLayout>[0]['group'];
+  /** Dictionary keys for this discipline's title/tagline/alt. */
+  keys: { title: string; tagline: string; imageAlt: string };
+
+  sectionKeys: string[];
+  /**
+   * Set once the body copy below the headings is real. While false the sections
+   * render a neutral placeholder and the page is marked `noindex`, so a
+   * half-written page can never outrank a finished one.
+   */
+  ready?: boolean;
+}
+
+const { group, keys, sectionKeys, ready = false } = Astro.props;
+
+const { t } = Astro.locals.i18n;
+const headings = sectionKeys.map((key) => t(key));
+---
+
+
+<ProjectLayout group={group} keys={keys} noindex={!ready}>
+  {
+    headings.map((heading, i) => (
+      <Section tone="surface" variant={i % 2 === 0 ? 'base' : 'alt'}>
+        <h2 class="mb-[0.8em] border-b-2 border-hairline pb-[1em] text-[1em] md:text-[1.2em]">
+          {heading}
+        </h2>
+        {ready ? (
+          <slot name={`section-${heading}`} />
+        ) : (
+          <p class="m-0 text-ink-muted">{t('project.draft')}</p>
+        )}
+      </Section>
+    ))
+  }
+</ProjectLayout>

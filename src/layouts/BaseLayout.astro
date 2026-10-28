@@ -1,0 +1,54 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Banner from '../components/Banner.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import Menu from '../components/Menu.astro';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+  /** Set false on pages that supply their own hero. */
+  banner?: boolean;
+  /** h1 when the banner is the page heading; p when the page has its own h1. */
+  bannerAs?: 'h1' | 'p';
+  /** Keeps unfinished pages out of search results. See BaseHead. */
+  noindex?: boolean;
+}
+
+const { locale, t } = Astro.locals.i18n;
+
+const {
+  title,
+  description = t('site.description'),
+  banner = true,
+  bannerAs = 'h1',
+  noindex = false,
+} = Astro.props;
+---
+
+
+<!doctype html>
+<html lang={locale}>
+  <head>
+    <BaseHead title={title} description={description} noindex={noindex} />
+  </head>
+
+  <body>
+    <a href="#main" class="sr-only-focusable">{t('a11y.skipToContent')}</a>
+
+    <div id="page-wrapper">
+      <Header banner={banner} />
+      {banner && <Banner as={bannerAs} />}
+
+      <main id="main" tabindex="-1">
+        <slot />
+      </main>
+
+      <Footer />
+    </div>
+
+    <Menu />
+  </body>
+</html>

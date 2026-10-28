@@ -1,0 +1,106 @@
+{
+  "site": {
+    "tagline": "Recreación Histórica y Artes Marciales Históricas Europeas",
+    "description": "Asociación Ensis te invita a vivir la historia a través de la recreación histórica y el estudio de las artes marciales históricas europeas."
+  },
+  "a11y": {
+    "skipToContent": "Saltar al contenido principal",
+    "primaryNav": "Principal",
+    "menuDialog": "Menú principal",
+    "newTabNotice": "(se abre en una pestaña nueva)",
+    "groupSocialNotice": "de {{group}} (se abre en una pestaña nueva)"
+  },
+  "language": {
+    "label": "Idioma",
+    "es": "Castellano",
+    "ca": "Català",
+    "switchTo": "Cambiar a {{language}}"
+  },
+  "theme": {
+    "toggle": "Cambiar tema",
+    "toLight": "Cambiar a tema claro",
+    "toDark": "Cambiar a tema oscuro"
+  },
+  "nav": {
+    "home": "Inicio",
+    "recreacion": "Recreación Histórica",
+    "artesMarciales": "Artes Marciales Históricas Europeas",
+    "events": "Eventos",
+    "contact": "Contacto"
+  },
+  "groups": {
+    "recreacion": {
+      "tagline": "Vivimos la historia tanto en los libros como al aire libre.",
+      "imageAlt": "Personas participant en una recreación histórica de Las Hijas de Walpurgis"
+    },
+    "artes": {
+      "tagline": "Estudiamos el arte de la esgrima desde sus fuentes originales. Y lo ponemos en práctica.",
+      "imageAlt": "Demostración de Artes Marciales Históricas Europeas"
+    }
+  },
+  "menu": {
+    "open": "Menú",
+    "title": "Menú",
+    "close": "Cerrar"
+  },
+  "cta": {
+    "learnMore": "Saber más",
+    "register": "Inscribirse",
+    "registerSelf": "Inscribirme",
+    "viewAllEvents": "Ver todos los talleres y fechas →"
+  },
+  "workshops": {
+    "pageTitle": "Talleres, cursos y charlas — Asociación Ensis",
+    "heading": "Talleres, cursos y charlas",
+    "tagline": "¿Te quieres manchar las manos?",
+    "none": "No hay workshops programados en este momento.",
+    "followBefore": "Síguenos en",
+    "followAfter": "para enterarte cuando los anunciemos.",
+    "upcoming": "Próximas actividades",
+    "past": "Actividades anteriores",
+    "pastNote": "Estas actividades ya se han realizado. Si quieres que se repitan o quieres proponer una, escríbenos.",
+    "finished": "Finalizado"
+  },
+  "contact": {
+    "heading": "Contacto",
+    "lede": "Puedes contactar con nosotros por WhatsApp, correo electrónico, Instagram o con el formulario de esta página.",
+    "donateHeading": "Donar",
+    "donateNote": "Donaciones a través de Bizum:",
+    "donateCode": "Bizum ONG {{code}}",
+    "formTitle": "Formulario de contacto de Asociación Ensis",
+    "pageTitle": "Contacto — Asociación Ensis",
+    "channelsHeading": "Cómo contactarnos",
+    "formHeading": "Formulario de contacto"
+  },
+  "footer": {
+    "copyright": "© {{year}} Asociación Ensis. Todos los derechos reservados",
+    "studioCredit": "</> with 💖 by",
+    "designCredit": "Diseño original:",
+    "legalNav": "Documentos legales",
+    "privacy": "Privacidad",
+    "terms": "Condiciones de uso",
+    "statutes": "Estatuts (en català)",
+    "quickNav": "Navegación"
+  },
+  "join": {
+    "heading": "Únete a {{group}}",
+    "note": "La inscripción se completa en el formulario oficial de la sala, gestionado por COEDPI. Se abrirá en una pestaña nueva."
+  },
+  "group": {
+    "follow": "Sigue a {{group}}"
+  },
+  "project": {
+    "whatWeDo": "Qué hacemos",
+    "howToJoin": "Cómo participar",
+    "draft": "Esta sección está en preparación."
+  },
+  "notFound": {
+    "pageTitle": "Página no encontrada — Asociación Ensis",
+    "heading": "Página no encontrada",
+    "lede": "La página que buscas no existe o ha cambiado de sitio.",
+    "suggestionsLabel": "Prueba con:"
+  },
+  "legal": {
+    "lastUpdated": "Última actualización: {{date}}"
+  }
+}

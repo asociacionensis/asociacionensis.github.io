@@ -1,0 +1,17 @@
+---
+import ProjectPage from '../../components/pages/ProjectPage.astro';
+import { GROUPS } from '../../config';
+
+const keys = {
+    title: 'nav.recreacion',
+    tagline: 'groups.recreacion.tagline',
+    imageAlt: 'groups.recreacion.imageAlt',
+  };
+const sectionKeys = ['project.whatWeDo', 'project.howToJoin'];
+
+// Flip to true (and fill the named slots) once this page has real body copy.
+const ready = false;
+---
+
+
+<ProjectPage group={GROUPS.walpurgis} keys={keys} sectionKeys={sectionKeys} ready={ready} />
