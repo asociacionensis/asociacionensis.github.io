@@ -1,0 +1,50 @@
+---
+/**
+ * Lives in the overlay menu rather than the header: the header only had room for
+ * theme + menu, and the menu is where navigation is.
+ *
+ * The inactive entry uses a dimmed token instead of `--ink-muted`, which
+ * composites to only 3.58:1 on the dark accent panel and fails AA.
+ */
+import { getRelativeLocaleUrl } from 'astro:i18n';
+import { SUPPORTED } from '../i18n';
+
+const { locale, t } = Astro.locals.i18n;
+
+const items = SUPPORTED.map((code) => ({
+  code,
+  name: t(`language.${code}`),
+  isCurrent: code === locale,
+  href: getRelativeLocaleUrl(code),
+}));
+
+const ITEM =
+  'block rounded-[5px] border-0 px-[0.75em] py-[0.6em] font-heading text-[0.8em] font-extrabold uppercase tracking-[0.1em] leading-[1.85] transition-colors duration-200';
+---
+
+
+<nav aria-label={t('language.label')} class="mt-[1.5em] border-t-2 border-hairline pt-[1.25em]">
+  <ul class="m-0 flex list-none flex-wrap items-baseline gap-x-[0.5em] p-0">
+    {
+      items.map(({ code, name, isCurrent, href }) => (
+        <li class="m-0 list-none">
+          {isCurrent ? (
+            <span aria-current="true" lang={code} class={`${ITEM} cursor-default text-ink-on-accent-dim`}>
+              {name}
+            </span>
+          ) : (
+            <a
+              href={href}
+              lang={code}
+              data-menu-link
+              aria-label={t('language.switchTo', { language: name })}
+              class={`${ITEM} text-ink hover:bg-hairline-strong-soft`}
+            >
+              {name}
+            </a>
+          )}
+        </li>
+      ))
+    }
+  </ul>
+</nav>

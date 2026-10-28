@@ -1,0 +1,21 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Section from '../components/Section.astro';
+import { Content, frontmatter } from '../content/legal/privacidad-es.md';
+import { formatDate } from '../utils/date';
+
+const { locale, t } = Astro.locals.i18n;
+
+const title = 'Política de privacidad';
+const updated = formatDate(locale, new Date(frontmatter.updated));
+---
+
+<BaseLayout title={`${title} — Asociación Ensis`} bannerAs="p">
+  <Section tone="surface" variant="base">
+    <div class="prose">
+      <h1>{title}</h1>
+      <p class="text-ink-muted">{t('legal.lastUpdated', { date: updated })}</p>
+      <Content />
+    </div>
+  </Section>
+</BaseLayout>

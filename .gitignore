@@ -1,0 +1,20 @@
+# dependencies
+node_modules/
+
+# build output
+dist/
+.astro/
+
+# environment
+.env
+.env.production
+
+# editors / OS
+.DS_Store
+.vscode/
+.idea/
+*.log
+npm-debug.log*
+
+# agent skills installed locally
+.agents/

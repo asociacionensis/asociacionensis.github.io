@@ -1,0 +1,14 @@
+---
+import HomePage from '../../components/pages/HomePage.astro';
+import { toEvents, type EventFrontmatter } from '../../utils/events';
+
+const modules = import.meta.glob<EventFrontmatter>('./eventos/*.md', {
+  eager: true,
+  import: 'frontmatter',
+});
+
+const events = toEvents(modules);
+---
+
+
+<HomePage events={events} />

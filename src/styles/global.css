@@ -1,0 +1,433 @@
+/* Dark values are the literal HTML5 UP originals; light values are new. */
+
+@import 'tailwindcss';
+
+/* Dark is the default theme: it is the site's original identity.
+   Opt into light by setting `.light` on <html>. */
+@custom-variant light (&:where(.light, .light *));
+
+@plugin '@tailwindcss/typography';
+
+/* Self-hosted to avoid a Google Fonts transfer under GDPR. */
+@font-face {
+  font-family: 'Raleway';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/Raleway-normal-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191,
+    U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Raleway';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/Raleway-normal-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF,
+    U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020,
+    U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Source Sans 3';
+  font-style: normal;
+  font-weight: 200 900;
+  font-display: swap;
+  src: url('/fonts/SourceSans3-normal-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191,
+    U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Source Sans 3';
+  font-style: normal;
+  font-weight: 200 900;
+  font-display: swap;
+  src: url('/fonts/SourceSans3-normal-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF,
+    U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020,
+    U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Source Sans 3';
+  font-style: italic;
+  font-weight: 200 900;
+  font-display: swap;
+  src: url('/fonts/SourceSans3-italic-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191,
+    U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Source Sans 3';
+  font-style: italic;
+  font-weight: 200 900;
+  font-display: swap;
+  src: url('/fonts/SourceSans3-italic-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF,
+    U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020,
+    U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+:root {
+  color-scheme: dark;
+
+  --surface: #2e3141; /* $palette(bg) */
+  --surface-raised: #353846; /* desaturate(lighten(bg,3),1.5) */
+  --spotlight: #4c5c96; /* $palette(accent) */
+  --spotlight-alt: #45558d; /* saturate(darken(accent,3),1.5) */
+  --accent: #4c5c96;
+
+  --ink: #ffffff;
+  /* 0.62 alpha = 6.00:1. The original 0.35 measured 2.98:1 and failed AA. */
+  --ink-muted: rgb(255 255 255 / 0.62);
+  --ink-on-accent: #ffffff;
+  /* --ink-muted cannot be reused on --spotlight: 3.58:1, fails AA.
+     0.80 is the lowest alpha keeping headroom over 4.50:1 (4.77:1 measured). */
+  --ink-on-accent-dim: rgb(255 255 255 / 0.8);
+
+  --hairline: rgb(255 255 255 / 0.125);
+  --hairline-soft: rgb(255 255 255 / 0.025);
+  --hairline-strong: rgb(255 255 255 / 0.25);
+  --hairline-strong-soft: rgb(255 255 255 / 0.075);
+
+  --veil: rgb(46 49 65 / 0.8); /* transparentize(bg, 0.2) over bg.jpg */
+  --scrim: rgb(46 49 65 / 0.8); /* #menu backdrop */
+
+  --shadow-panel: 0 12px 32px rgb(0 0 0 / 0.35);
+}
+
+.light {
+  color-scheme: light;
+
+  --surface: #f7f6f3;
+  --surface-raised: #ffffff;
+  /* Accent cannot be a light-mode surface: ink on #4c5c96 is 2.01:1. */
+  --spotlight: #e8eaf4;
+  --spotlight-alt: #dfe2f2;
+  --accent: #4c5c96;
+
+  --ink: #2e3141;
+  --ink-muted: #5c5f70; /* 5.84:1 on --surface */
+  --ink-on-accent: #ffffff;
+  /* --spotlight is a light tint here, so the dimmed label must be dark, not white. */
+  --ink-on-accent-dim: rgb(46 49 65 / 0.75);
+
+  --hairline: rgb(46 49 65 / 0.14);
+  --hairline-soft: rgb(46 49 65 / 0.04);
+  --hairline-strong: rgb(46 49 65 / 0.24);
+  --hairline-strong-soft: rgb(46 49 65 / 0.08);
+
+  --veil: rgb(247 246 243 / 0.92);
+  --scrim: rgb(46 49 65 / 0.55);
+
+  --shadow-panel: 0 12px 32px rgb(46 49 65 / 0.18);
+}
+
+/* Breakpoints are the HTML5 UP ranges, mobile-first. Tailwind's defaults
+   (640/768/1024) would land the layout in the wrong place. Below 737px is base
+   style; use max-[480px]: for xsmall. */
+@theme {
+  --color-surface: var(--surface);
+  --color-surface-raised: var(--surface-raised);
+  --color-spotlight: var(--spotlight);
+  --color-spotlight-alt: var(--spotlight-alt);
+  --color-accent: var(--accent);
+  --color-ink: var(--ink);
+  --color-ink-muted: var(--ink-muted);
+  --color-ink-on-accent: var(--ink-on-accent);
+  --color-ink-on-accent-dim: var(--ink-on-accent-dim);
+  --color-hairline: var(--hairline);
+  --color-hairline-soft: var(--hairline-soft);
+  --color-hairline-strong: var(--hairline-strong);
+  --color-hairline-strong-soft: var(--hairline-strong-soft);
+  --color-veil: var(--veil);
+
+  --font-heading: 'Raleway', Helvetica, sans-serif;
+  --font-body: 'Source Sans 3', Helvetica, sans-serif;
+
+  --container-inner: 55em;
+
+  --radius-token: 5px;
+
+  --breakpoint-sm: 737px; /* was breakpoint('<=small') */
+  --breakpoint-md: 981px; /* was breakpoint('<=medium') */
+  --breakpoint-lg: 1281px; /* was breakpoint('<=large') */
+  --breakpoint-xl: 1681px; /* was breakpoint('<=xlarge') */
+
+  --ease-token: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    /* The original set `user-scalable=no`, which blocks pinch-zoom and fails
+       WCAG 2.1 SC 1.4.4. Zoom is intentionally left enabled. */
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+    /* Keep anchored sections clear of the fixed header. */
+    scroll-padding-top: 3.5em;
+    min-width: 320px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  body {
+    margin: 0;
+    font-family: var(--font-body);
+    font-size: 12pt; /* original: 12pt below 981px */
+    font-weight: 300;
+    line-height: 1.65;
+    color: var(--ink);
+    background-color: var(--surface);
+    min-height: 100svh;
+    overflow-x: hidden;
+    text-wrap: pretty;
+    transition: background-color 0.3s var(--ease-token), color 0.3s var(--ease-token);
+  }
+
+  @media (min-width: 981px) {
+    body {
+      font-size: 13pt;
+    }
+  }
+
+  @media (min-width: 1281px) {
+    body {
+      font-size: 16.5pt;
+    }
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: var(--ink);
+    font-family: var(--font-heading);
+    font-weight: 700;
+    letter-spacing: 0.1em; /* original: kern-heading */
+    text-transform: uppercase;
+    margin: 0 0 1em;
+    line-height: 1.2;
+    text-wrap: balance;
+  }
+
+  h1 {
+    font-size: 2em;
+  }
+  h2 {
+    font-size: 1.2em;
+  }
+  h3 {
+    font-size: 0.9em;
+  }
+
+  p {
+    margin: 0 0 2em; /* original: _size(element-margin) */
+  }
+
+  a {
+    color: var(--ink);
+    text-decoration: none;
+    border-bottom: 1px dotted var(--ink-muted);
+    transition: color 0.2s ease-in-out, border-color 0.2s ease-in-out;
+  }
+
+  a:hover {
+    border-bottom-color: transparent;
+  }
+
+  /* A visible focus ring everywhere. The original had none.
+     --ink, not --accent: the accent ring measured 2.01:1 on --surface and
+     1.00:1 on --spotlight (same hex), failing WCAG 1.4.11. --ink clears 3:1
+     on every surface in both themes.
+     No border-radius here on purpose: setting it would override each element's
+     own radius, so a rounded button got a square ring floating around it. */
+  :focus-visible {
+    outline: 2px solid var(--ink);
+    outline-offset: 3px;
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  ul,
+  ol {
+    padding-left: 1.5em;
+  }
+
+  hr {
+    border: 0;
+    border-bottom: 2px solid var(--hairline);
+    margin: 2.5em 0;
+  }
+}
+
+
+@utility heading-rule {
+  margin-bottom: 0.8em;
+  border-bottom-width: 2px;
+  border-bottom-color: var(--hairline);
+  padding-bottom: 1em;
+}
+
+/* Diagonal section dividers — the signature of the original template.
+   Implemented as a mask so the fill colour stays a live variable instead of a
+   baked-in data URI, which is what lets them follow the light/dark theme. */
+@utility chevron {
+  --chevron-shape: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none'%3E%3Cpolygon points='0,100 100,0 100,100'/%3E%3C/svg%3E");
+
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 2.5em; /* wrapper-edges small */
+  background-color: var(--edge-color, var(--surface));
+  -webkit-mask-image: var(--chevron-shape);
+  mask-image: var(--chevron-shape);
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  pointer-events: none;
+
+  @media (min-width: 981px) {
+    height: 4.75em; /* wrapper-edges medium */
+  }
+
+  @media (min-width: 1281px) {
+    height: 6.5em; /* wrapper-edges large */
+  }
+}
+
+/* Hero background. The original showed bg.jpg only at <=1280px and left the
+   page background plain above that; the media query preserves that. */
+@utility hero-surface {
+  background-image: var(--veil), url('/images/bg.jpg');
+  background-size: cover;
+  background-position: 0% 0%;
+
+  @media (min-width: 1281px) {
+    background-image: none;
+  }
+}
+
+/* Visually hidden, kept for assistive technology. */
+@utility sr-only-focusable {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+
+  &:focus {
+    position: fixed;
+    top: 0.75rem;
+    left: 0.75rem;
+    z-index: 200;
+    width: auto;
+    height: auto;
+    margin: 0;
+    padding: 0.6rem 1rem;
+    clip-path: none;
+    background: var(--accent);
+    color: var(--ink-on-accent);
+    border-radius: var(--radius-token);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Long-form prose (legal documents), via @tailwindcss/typography.
+
+   The plugin is driven from the theme tokens rather than the dark:/light:
+   invert pair, so both themes come from one rule set and cannot drift.
+
+   Also re-asserts what the base layer strips or overrides: preflight kills
+   list markers, and the section headings carry the site's display face.
+   ------------------------------------------------------------------------ */
+.prose {
+  --tw-prose-body: var(--ink);
+  --tw-prose-headings: var(--ink);
+  --tw-prose-lead: var(--ink-muted);
+  --tw-prose-links: var(--ink);
+  --tw-prose-bold: var(--ink);
+  --tw-prose-bold-links: var(--ink);
+  --tw-prose-links-hover: var(--ink);
+  --tw-prose-counters: var(--ink-muted);
+  --tw-prose-bullets: var(--ink-muted);
+  --tw-prose-hr: var(--hairline-strong);
+  --tw-prose-quotes: var(--ink-muted);
+  --tw-prose-quote-borders: var(--hairline-strong);
+  --tw-prose-captions: var(--ink-muted);
+  --tw-prose-code: var(--ink);
+  --tw-prose-th-borders: var(--hairline-strong);
+  --tw-prose-td-borders: var(--hairline);
+  font-family: var(--font-body);
+  font-size: inherit;
+}
+
+.prose :is(h2, h3, h4) {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.prose h2 {
+  padding-bottom: 0.5em;
+  border-bottom: 2px solid var(--hairline);
+}
+
+.prose ul > li::marker,
+.prose ol > li::marker {
+  color: var(--ink-muted);
+}
+
+.prose h3 {
+  color: var(--ink-muted);
+}
+
+.prose a {
+  border-bottom: 1px dotted var(--ink-muted);
+  text-decoration: none;
+}
+
+.prose a:hover {
+  border-bottom-color: transparent;
+}
+
+.prose blockquote {
+  font-style: normal;
+  font-weight: 400;
+  border-left-width: 4px;
+}
+
+.prose table {
+  font-size: 0.9em;
+}
+
+.prose thead th {
+  font-family: var(--font-heading);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}

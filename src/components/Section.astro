@@ -1,0 +1,67 @@
+---
+/** Chevron fill is driven by --edge-color so it tracks the theme. */
+type Tone = 'surface' | 'spotlight' | 'spotlight-alt';
+type Variant = 'base' | 'alt';
+
+interface Props {
+  tone?: Tone;
+  /** Mirrors the chevrons horizontally. */
+  variant?: Variant;
+  id?: string;
+  class?: string;
+  labelledBy?: string;
+  innerClass?: string;
+}
+
+const {
+  tone = 'surface',
+  variant = 'base',
+  id,
+  class: className = '',
+  labelledBy,
+  innerClass = '',
+} = Astro.props;
+
+const toneMap: Record<Tone, string> = {
+  surface: 'bg-surface [--edge-color:var(--color-surface)]',
+  spotlight: 'bg-spotlight [--edge-color:var(--color-spotlight)]',
+  'spotlight-alt': 'bg-spotlight-alt [--edge-color:var(--color-spotlight-alt)]',
+};
+---
+
+
+<section
+  id={id}
+  aria-labelledby={labelledBy}
+  class:list={[
+    toneMap[tone],
+      'relative my-[2.5em] sm:my-[4.75em] md:my-[6.5em]',
+    className,
+  ]}
+>
+  <span
+    aria-hidden="true"
+    class:list={[
+      'chevron top-0 -translate-y-full',
+      variant === 'alt' && '-scale-x-100',
+    ]}
+  />
+  <span
+    aria-hidden="true"
+    class:list={[
+      'chevron bottom-0 translate-y-full',
+      variant === 'alt' ? '-scale-x-100 -scale-y-100' : '-scale-y-100',
+    ]}
+  />
+
+  <div
+    class:list={[
+      // The 55em cap only applies from 1281px up: capping it everywhere makes
+      // the 32em spotlight image swallow the text column.
+      'mx-auto w-full px-[1.5em] sm:px-[2em] md:px-[3em] lg:max-w-[55em] lg:px-0 lg:py-[3em]',
+      innerClass,
+    ]}
+  >
+    <slot />
+  </div>
+</section>

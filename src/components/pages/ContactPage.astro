@@ -1,0 +1,86 @@
+---
+import { BIZUM, CONTACT, SOCIAL } from '../../config';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ContactList, { type ContactItem } from '../ContactList.astro';
+import Section from '../Section.astro';
+import TallyEmbed from '../TallyEmbed.astro';
+
+const { t } = Astro.locals.i18n;
+
+const items: ContactItem[] = [
+  {
+    icon: 'tabler:brand-whatsapp',
+    label: CONTACT.phoneLabel,
+    href: SOCIAL.whatsapp,
+    external: true,
+  },
+  {
+    icon: 'lucide:mail',
+    label: CONTACT.email,
+    href: `mailto:${CONTACT.email}`,
+  },
+  {
+    icon: 'tabler:brand-instagram',
+    label: 'instagram.com/asociacionensis/',
+    href: SOCIAL.instagram,
+    external: true,
+  },
+  {
+    icon: 'tabler:brand-facebook',
+    label: 'Asociación Ensis en Facebook',
+    href: SOCIAL.facebook,
+    external: true,
+  },
+];
+---
+
+
+<BaseLayout title={t('contact.pageTitle')} description={t('contact.lede')} bannerAs="p">
+  <Section tone="surface" variant="base">
+    <h1 class="heading-rule text-[1.5em] md:text-[1.75em]">
+      {t('contact.heading')}
+    </h1>
+    <p>{t('contact.lede')}</p>
+
+    <div class="mt-[2.5em] grid gap-[2.5em] md:grid-cols-2 md:gap-[3em]">
+      <section aria-labelledby="contact-channels">
+        <h2
+          id="contact-channels"
+          class="heading-rule text-[1em] md:text-[1.2em]"
+        >
+          {t('contact.channelsHeading')}
+        </h2>
+
+        <ContactList items={items} />
+
+        <div
+          class="mt-[2em] flex items-start gap-[1em] rounded-[5px] border border-hairline p-[1.25em]"
+        >
+          <span
+            aria-hidden="true"
+            class="grid h-[2.5em] w-[2.5em] shrink-0 place-items-center rounded-full border-2 border-hairline"
+          >
+            <span class="text-[1.1em] leading-none">📲</span>
+          </span>
+          <div>
+            <h3 class="mb-[0.4em] border-0 pb-0 text-[0.8em]">{t('contact.donateHeading')}</h3>
+            <p class="m-0 text-[0.95em]">
+              {t('contact.donateNote')} <strong>{t('contact.donateCode', { code: BIZUM.shortCode })}</strong>
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section aria-labelledby="contact-form-heading">
+        <h2
+          id="contact-form-heading"
+          class="heading-rule text-[1em] md:text-[1.2em]"
+        >
+          {t('contact.formHeading')}
+        </h2>
+
+        <TallyEmbed />
+      </section>
+    </div>
+  </Section>
+</BaseLayout>

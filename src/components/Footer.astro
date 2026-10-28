@@ -1,0 +1,125 @@
+---
+import { getRelativeLocaleUrl } from 'astro:i18n';
+import { CONTACT, SITE, SOCIAL, getNav } from '../config';
+import Icon from './Icon.astro';
+
+const { locale, t } = Astro.locals.i18n;
+const nav = getNav(t, locale);
+const year = new Date().getFullYear();
+
+const socials = [
+  { icon: 'tabler:brand-instagram', label: 'Instagram', href: SOCIAL.instagram },
+  { icon: 'tabler:brand-facebook', label: 'Facebook', href: SOCIAL.facebook },
+  { icon: 'tabler:brand-whatsapp', label: 'WhatsApp', href: SOCIAL.whatsapp },
+];
+
+// The statutes are Catalan-only, so the link points straight at the
+// canonical Catalan URL instead of a Spanish page that does not exist.
+const legalLinks = [
+  { label: t('footer.privacy'), href: getRelativeLocaleUrl(locale, '/privacidad') },
+  { label: t('footer.terms'), href: getRelativeLocaleUrl(locale, '/condiciones') },
+  { label: t('footer.statutes'), href: getRelativeLocaleUrl('ca', '/estatuts') },
+];
+---
+
+
+<footer class="mt-[2.5em] bg-surface-raised/60 md:mt-[6.5em]">
+  <div class="mx-auto max-w-[55em] px-[1.5em] py-[2em] sm:px-[2em] sm:py-[3em] md:px-[3em] md:py-[4em]">
+    <div class="grid gap-[2em] sm:grid-cols-[2fr_1fr] md:grid-cols-[2fr_1fr_1fr]">
+      <div>
+        <p class="m-0 font-heading text-[0.95em] font-bold uppercase tracking-[0.1em]">
+          {SITE.name}
+        </p>
+        <p class="mb-0 mt-[0.6em] max-w-[22em] text-[0.85em] text-ink-muted">{t('site.tagline')}</p>
+      </div>
+
+      <nav aria-label={t('footer.quickNav')}>
+        <p
+          class="mb-[0.8em] border-0 pb-0 font-heading text-[0.75em] uppercase tracking-[0.1em] text-ink-muted"
+        >
+          {t('footer.quickNav')}
+        </p>
+        <ul class="m-0 list-none p-0 text-[0.9em]">
+          {
+            nav.map((item) => (
+              <li class="mb-[0.45em]">
+                <a href={item.href} class="border-0">
+                  {item.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+
+      <div>
+        <p
+          class="mb-[0.8em] border-0 pb-0 font-heading text-[0.75em] uppercase tracking-[0.1em] text-ink-muted"
+        >
+          {t('contact.heading')}
+        </p>
+        <ul class="m-0 flex list-none gap-[0.6em] p-0">
+          {
+            socials.map((s) => (
+              <li>
+                <a
+                  href={s.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`${s.label} ${t('a11y.newTabNotice')}`}
+                  class="grid h-[2.4em] w-[2.4em] place-items-center rounded-full border-0 text-ink transition-colors duration-200 hover:bg-hairline-strong-soft pointer-coarse:min-h-[44px] pointer-coarse:min-w-[44px]"
+                >
+                  <Icon name={s.icon} class="size-[1.1em]" />
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+        <p class="mb-0 mt-[1.25em] text-[0.85em]">
+          <a href={`mailto:${CONTACT.email}`} class="border-0">
+            {CONTACT.email}
+          </a>
+        </p>
+      </div>
+    </div>
+
+    <nav
+      aria-label={t('footer.legalNav')}
+      class="mt-[3em] border-t-2 border-hairline pt-[1.5em]"
+    >
+      <ul class="m-0 flex list-none flex-wrap gap-x-[1.25em] gap-y-[0.5em] p-0 font-heading text-[0.75em] uppercase tracking-[0.1em]">
+        {
+          legalLinks.map((link) => (
+            <li><a href={link.href} class="border-0">{link.label}</a></li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <ul class="mb-0 mt-[1.5em] flex list-none flex-wrap items-center gap-x-[1em] gap-y-[0.5em] p-0 text-[0.8em] text-ink-muted">
+      <li>{t('footer.copyright', { year })}</li>
+      <li>
+        {t('footer.studioCredit')}{' '}
+        <a
+          href="https://wombatepiclandingstudio.github.io/"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="border-0 text-inherit"
+        >
+          Wombat Epic Landing Studio
+        </a>
+      </li>
+      <li>
+        {t('footer.designCredit')}{' '}
+        <a
+          href="https://html5up.net"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="border-0 text-inherit"
+        >
+          HTML5 UP
+        </a>
+      </li>
+    </ul>
+  </div>
+</footer>

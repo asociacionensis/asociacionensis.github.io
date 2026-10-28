@@ -1,0 +1,79 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import EventGrid from '../EventGrid.astro';
+import Section from '../Section.astro';
+import Spotlight from '../Spotlight.astro';
+import { GROUPS, SITE, SOCIAL } from '../../config';
+import { splitByDate, type Event } from '../../utils/events';
+
+import { getRelativeLocaleUrl } from 'astro:i18n';
+
+const { locale, t } = Astro.locals.i18n;
+
+interface Props {
+  events?: Event[];
+}
+
+const { events = [] } = Astro.props;
+
+const { upcoming, past } = splitByDate(events);
+const sorted = [...upcoming, ...past];
+const hasUpcoming = upcoming.length > 0;
+---
+
+
+<BaseLayout title={`${SITE.name} — ${t('site.tagline')}`}>
+  <Spotlight
+    id="recreacion-historica"
+    titleId="recreacion-historica-title"
+    title={t('nav.recreacion')}
+    tagline={t('groups.recreacion.tagline')}
+    image={GROUPS.walpurgis.image}
+    imageAlt={t('groups.recreacion.imageAlt')}
+    href={getRelativeLocaleUrl(locale, `/proyectos/${GROUPS.walpurgis.slug}`)}
+    priority
+  />
+
+  <Spotlight
+    id="hema"
+    titleId="hema-title"
+    title={t('nav.artesMarciales')}
+    tagline={t('groups.artes.tagline')}
+    image={GROUPS.santMarti.image}
+    imageAlt={t('groups.artes.imageAlt')}
+    href={getRelativeLocaleUrl(locale, `/proyectos/${GROUPS.santMarti.slug}`)}
+    reverse
+  />
+
+  <Section id="talleres-cursos-y-charlas" labelledBy="talleres-title" tone="surface" variant="alt">
+    <h2
+      id="talleres-title"
+      class="heading-rule text-[1em] sm:text-[0.9em] md:text-[1.2em]"
+    >
+      {t('workshops.heading')}
+    </h2>
+
+    <p>{t('workshops.tagline')}</p>
+
+    {
+      hasUpcoming && (
+        <p class="text-ink-muted">
+          <a href={getRelativeLocaleUrl(locale, '/eventos')}>{t('cta.viewAllEvents')}</a>
+        </p>
+      )
+    }
+
+    {
+      sorted.length === 0 ? (
+        // Split around the Instagram link so it survives translation.
+        <p class="text-ink-muted">
+          {t('workshops.none')} {t('workshops.followBefore')}{' '}
+          <a href={SOCIAL.instagram} target="_blank" rel="noopener noreferrer">Instagram</a>{' '}
+          {t('workshops.followAfter')}
+        </p>
+      ) : (
+        <EventGrid events={sorted} />
+      )
+    }
+  </Section>
+</BaseLayout>
