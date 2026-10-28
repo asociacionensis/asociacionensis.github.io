@@ -24,16 +24,23 @@ const backHref = getRelativeLocaleUrl(locale, '/eventos');
       ← {t('workshops.heading')}
     </a>
 
-    <h1 class="mb-[0.8em] border-b-2 border-hairline pb-[1em] text-[1.5em] md:text-[1.75em]">{title}</h1>
+    <h1 class="heading-rule text-[1.5em] md:text-[1.75em]">{title}</h1>
 
-    {image && <img src={withBase(image)} alt={imageAlt} class="mb-[1.5em] w-full rounded-[5px] object-cover" />}
+    {image && (
+      <img
+        src={withBase(image)}
+        alt={imageAlt}
+        class="mb-[1.5em] w-full rounded-[5px] object-cover aspect-video"
+        loading="lazy"
+      />
+    )}
 
     <ContactList items={[
       { icon: 'lucide:calendar', text: formatDate(locale, eventDate) },
       { icon: 'lucide:map-pin', text: location },
     ]} class="mb-[1.5em]" />
 
-    <div class="prose max-w-none"><slot /></div>
+    <div class="prose"><slot /></div>
 
     {registrationUrl && (
       <a href={registrationUrl} target="_blank" rel="noopener noreferrer"
@@ -42,6 +49,7 @@ const backHref = getRelativeLocaleUrl(locale, '/eventos');
           <Icon name="lucide:external-link" class="size-[0.9em]" />
         </span>
         {t('cta.register')}
+        <span class="sr-only">{t('a11y.newTabNotice')}</span>
       </a>
     )}
   </Section>

@@ -81,6 +81,8 @@ const ogLocaleAlternate = locale === 'ca' ? ['es_ES'] : ['ca_ES'];
 <meta name="twitter:image" content={ogImage} />
 
 <link rel="icon" type="image/x-icon" href={withBase('/images/favicon.ico')} />
+<link rel="preload" href={withBase('/fonts/Raleway-normal-latin.woff2')} as="font" type="font/woff2" crossorigin />
+<link rel="preload" href={withBase('/fonts/SourceSans3-normal-latin.woff2')} as="font" type="font/woff2" crossorigin />
 
 <script is:inline>
   (() => {

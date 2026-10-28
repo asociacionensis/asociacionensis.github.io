@@ -51,7 +51,7 @@ export const GROUPS = {
     },
     /** Official COEDPI club registration sheet. */
     joinUrl:
-      'https://app.coedpi.es/servicios/hoja-inscripcion/?c=sala-sant-marti-walpurgis-2&tipo=atleta&g=72431',
+      'https://app.coedpi.es/servicios/hoja-inscripcion/?c=sala-sant-marti-walpurgis&tipo=atleta&g=72431',
   },
 } as const;
 

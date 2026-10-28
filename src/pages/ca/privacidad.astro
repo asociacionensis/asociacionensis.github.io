@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import Section from '../../components/Section.astro';
 import { Content, frontmatter } from '../../content/legal/privacitat-ca.md';
 import { formatDate } from '../../utils/date';
 
@@ -10,9 +11,11 @@ const updated = formatDate(locale, new Date(frontmatter.updated));
 ---
 
 <BaseLayout title={`${title} — Asociación Ensis`} bannerAs="p">
-  <div class="prose max-w-none">
-    <h1>{title}</h1>
-    <p class="text-ink-muted">{t('legal.lastUpdated', { date: updated })}</p>
-    <Content />
-  </div>
+  <Section tone="surface" variant="base">
+    <div class="prose">
+      <h1>{title}</h1>
+      <p class="text-ink-muted">{t('legal.lastUpdated', { date: updated })}</p>
+      <Content />
+    </div>
+  </Section>
 </BaseLayout>

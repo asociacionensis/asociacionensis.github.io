@@ -60,9 +60,6 @@ const socials = Object.entries(group.social);
         />
       </div>
       <div class="w-full">
-        <p class="mb-[0.6em] font-heading text-[0.7em] uppercase tracking-[0.1em] opacity-80">
-          {title}
-        </p>
         <h1 class="mb-[0.5em] border-b-2 border-hairline pb-[0.8em] text-[1.5em] sm:text-[1.4em] md:text-[1.75em]">
           {group.groupName}
         </h1>
@@ -76,7 +73,7 @@ const socials = Object.entries(group.social);
   {
     socials.length > 0 && (
       <Section tone="surface" variant="alt">
-        <h2 class="mb-[0.8em] border-b-2 border-hairline pb-[1em] text-[1em] md:text-[1.2em]">
+        <h2 class="heading-rule text-[1em] md:text-[1.2em]">
           {t('group.follow', { group: group.groupName })}
         </h2>
         <ul class="m-0 flex list-none flex-wrap gap-[1em] p-0">

@@ -17,7 +17,7 @@ const { upcoming, past } = splitByDate(toEvents(modules));
 
 <BaseLayout title={t('workshops.pageTitle')} bannerAs="p">
   <Section tone="surface" variant="base">
-    <h1 class="mb-[0.8em] border-b-2 border-hairline pb-[1em] text-[1.5em] md:text-[1.75em]">
+    <h1 class="heading-rule text-[1.5em] md:text-[1.75em]">
       {t('workshops.heading')}
     </h1>
     <p>{t('workshops.tagline')}</p>
@@ -38,7 +38,7 @@ const { upcoming, past } = splitByDate(toEvents(modules));
 
   {past.length > 0 && (
     <Section tone="surface" variant="alt">
-      <h2 class="mb-[0.8em] border-b-2 border-hairline pb-[1em] text-[1em] md:text-[1.2em]">
+      <h2 class="heading-rule text-[1em] md:text-[1.2em]">
         {t('workshops.past')}
       </h2>
       <p class="text-ink-muted">{t('workshops.pastNote')}</p>

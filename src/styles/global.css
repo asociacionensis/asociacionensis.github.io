@@ -195,13 +195,9 @@
     line-height: 1.65;
     color: var(--ink);
     background-color: var(--surface);
-    background-image: var(--veil);
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
-    background-repeat: no-repeat;
     min-height: 100svh;
     overflow-x: hidden;
+    text-wrap: pretty;
     transition: background-color 0.3s var(--ease-token), color 0.3s var(--ease-token);
   }
 
@@ -259,15 +255,14 @@
   }
 
   /* A visible focus ring everywhere. The original had none.
+     --ink, not --accent: the accent ring measured 2.01:1 on --surface and
+     1.00:1 on --spotlight (same hex), failing WCAG 1.4.11. --ink clears 3:1
+     on every surface in both themes.
      No border-radius here on purpose: setting it would override each element's
      own radius, so a rounded button got a square ring floating around it. */
   :focus-visible {
-    outline: 2px solid var(--accent);
+    outline: 2px solid var(--ink);
     outline-offset: 3px;
-  }
-
-  .light :focus-visible {
-    outline-color: var(--ink);
   }
 
   img {
@@ -287,6 +282,13 @@
   }
 }
 
+
+@utility heading-rule {
+  margin-bottom: 0.8em;
+  border-bottom-width: 2px;
+  border-bottom-color: var(--hairline);
+  padding-bottom: 1em;
+}
 
 /* Diagonal section dividers — the signature of the original template.
    Implemented as a mask so the fill colour stays a live variable instead of a
@@ -381,6 +383,7 @@
   --tw-prose-th-borders: var(--hairline-strong);
   --tw-prose-td-borders: var(--hairline);
   font-family: var(--font-body);
+  font-size: inherit;
 }
 
 .prose :is(h2, h3, h4) {

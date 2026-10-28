@@ -36,10 +36,9 @@ const { banner = true } = Astro.props;
         id="menu-trigger"
         aria-expanded="false"
         aria-controls="site-menu"
-        class="inline-flex cursor-pointer items-center gap-[0.6em] rounded-[5px] px-[1em] py-[0.35em] font-heading text-[0.8em] font-bold uppercase tracking-[0.1em] transition-colors duration-200 active:bg-hairline-soft md:px-[1.35em]"
+        class="inline-flex cursor-pointer items-center gap-[0.6em] rounded-[5px] px-[1em] py-[0.35em] font-heading text-[0.8em] font-bold uppercase tracking-[0.1em] transition-colors duration-200 active:bg-hairline-soft md:px-[1.35em] pointer-coarse:min-h-[44px]"
       >
         <span aria-hidden="true" class="text-[1.1em] leading-none">☰</span>
-        {/* sr-only keeps the collapsed label available to screen readers. */}
         <span class="sr-only min-[481px]:not-sr-only">{t('menu.open')}</span>
       </button>
     </nav>
@@ -65,8 +64,17 @@ const { banner = true } = Astro.props;
 
     const update = () => setAlt(banner.getBoundingClientRect().bottom > header.offsetHeight);
 
+    let frame: number | null = null;
+    const schedule = () => {
+      if (frame !== null) return;
+      frame = requestAnimationFrame(() => {
+        frame = null;
+        update();
+      });
+    };
+
     update();
-    window.addEventListener('scroll', update, { passive: true });
-    window.addEventListener('resize', update, { passive: true });
+    window.addEventListener('scroll', schedule, { passive: true });
+    window.addEventListener('resize', schedule, { passive: true });
   }
 </script>

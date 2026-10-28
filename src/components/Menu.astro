@@ -21,6 +21,7 @@ const nav = getNav(t, locale);
   aria-modal="true"
   aria-label={t('a11y.menuDialog')}
   data-state="closed"
+  inert
   class="pointer-events-none fixed inset-0 z-[20000] flex items-center justify-center bg-[var(--scrim)] p-[1.5em] opacity-0 transition-opacity duration-[0.35s] data-[state=open]:pointer-events-auto data-[state=open]:opacity-100"
 >
   <div
@@ -90,6 +91,12 @@ const nav = getNav(t, locale);
     const setState = (next: 'open' | 'closed') => {
       menu.dataset.state = next;
       panel.dataset.state = next;
+      // inert: closed menu leaves the tab order and the a11y tree; the open
+      // menu locks the page behind it.
+      menu.toggleAttribute('inert', next === 'closed');
+      document
+        .getElementById('page-wrapper')
+        ?.toggleAttribute('inert', next === 'open');
     };
 
     const openMenu = () => {

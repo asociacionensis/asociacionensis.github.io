@@ -27,7 +27,7 @@ const headings = sectionKeys.map((key) => t(key));
   {
     headings.map((heading, i) => (
       <Section tone="surface" variant={i % 2 === 0 ? 'base' : 'alt'}>
-        <h2 class="mb-[0.8em] border-b-2 border-hairline pb-[1em] text-[1em] md:text-[1.2em]">
+        <h2 class="heading-rule text-[1em] md:text-[1.2em]">
           {heading}
         </h2>
         {ready ? (
